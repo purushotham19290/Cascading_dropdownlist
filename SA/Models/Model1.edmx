@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="staffargumentsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'staffarguments.dbo.DeploymentDetails' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="DeploymentDetails">
+          <Property Name="EmpId" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="DeployedDate" Type="date" />
+          <Property Name="ReleaseDate" Type="date" />
+        </EntityType>-->
+        <EntityType Name="Projectnames">
+          <Key>
+            <PropertyRef Name="ProjectNameId" />
+          </Key>
+          <Property Name="ProjectNameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectId" Type="int" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Project" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Resources">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="EmailId" Type="varchar" MaxLength="50" />
+          <Property Name="YearOfPassing" Type="date" />
+          <Property Name="DOJ" Type="date" />
+          <Property Name="CostCenter" Type="int" />
+          <Property Name="BU" Type="nvarchar" MaxLength="50" />
+          <Property Name="SBU" Type="nvarchar" MaxLength="50" />
+          <Property Name="ResourceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClientReturn" Type="nvarchar" MaxLength="50" />
+          <Property Name="Project" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Aging" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgeBracket" Type="datetime" />
+          <Property Name="PerformanceAllowance" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationAllowance" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReadyNessSatge" Type="nvarchar" MaxLength="50" />
+          <Property Name="StatusAsOfDate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'staffarguments.dbo.TrainingDetails' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TrainingDetails">
+          <Property Name="EmpId" Type="int" />
+          <Property Name="TrainingId" Type="int" />
+          <Property Name="TrainingStartDate" Type="date" />
+          <Property Name="TrainingEndDate" Type="date" />
+        </EntityType>-->
+        <EntityType Name="Trainings">
+          <Key>
+            <PropertyRef Name="TrainingId" />
+          </Key>
+          <Property Name="TrainingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+error 6004: The table 'staffarguments.dbo.DeploymentDetails' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Deploymen__Custo__164452B1" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'staffarguments.dbo.DeploymentDetails' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Deploymen__EmpId__173876EA" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'staffarguments.dbo.TrainingDetails' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__TrainingD__EmpId__182C9B23" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'staffarguments.dbo.TrainingDetails' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__TrainingD__Train__1920BF5C" />-->
+        <Association Name="FK_Projectnames_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="Projectnames" Type="Self.Projectnames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Projectnames">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="staffargumentsModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projectnames" EntityType="Self.Projectnames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trainings" EntityType="Self.Trainings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Projectnames_Projects" Association="Self.FK_Projectnames_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Projectnames" EntitySet="Projectnames" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="staffargumentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Projectname">
+          <Key>
+            <PropertyRef Name="ProjectNameId" />
+          </Key>
+          <Property Name="ProjectNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectId" Type="Int32" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_Projectnames_Projects" FromRole="Projectnames" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Project1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projectnames" Relationship="Self.FK_Projectnames_Projects" FromRole="Projects" ToRole="Projectnames" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="YearOfPassing" Type="DateTime" Precision="0" />
+          <Property Name="DOJ" Type="DateTime" Precision="0" />
+          <Property Name="CostCenter" Type="Int32" />
+          <Property Name="BU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SBU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClientReturn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Project" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aging" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgeBracket" Type="DateTime" Precision="3" />
+          <Property Name="PerformanceAllowance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationAllowance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReadyNessSatge" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusAsOfDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Training">
+          <Key>
+            <PropertyRef Name="TrainingId" />
+          </Key>
+          <Property Name="TrainingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Projectnames_Projects">
+          <End Role="Projects" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Projectnames" Type="Self.Projectname" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Projectnames">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="staffargumentsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Projectnames" EntityType="Self.Projectname" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Resources" EntityType="Self.Resource" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Trainings" EntityType="Self.Training" />
+          <AssociationSet Name="FK_Projectnames_Projects" Association="Self.FK_Projectnames_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Projectnames" EntitySet="Projectnames" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="staffargumentsModelStoreContainer" CdmEntityContainer="staffargumentsEntities1">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="staffargumentsModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projectnames">
+            <EntityTypeMapping TypeName="staffargumentsModel.Projectname">
+              <MappingFragment StoreEntitySet="Projectnames">
+                <ScalarProperty Name="ProjectNameId" ColumnName="ProjectNameId" />
+                <ScalarProperty Name="ProjectName1" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="staffargumentsModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Project1" ColumnName="Project" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="staffargumentsModel.Resource">
+              <MappingFragment StoreEntitySet="Resources">
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="YearOfPassing" ColumnName="YearOfPassing" />
+                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+                <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+                <ScalarProperty Name="BU" ColumnName="BU" />
+                <ScalarProperty Name="SBU" ColumnName="SBU" />
+                <ScalarProperty Name="ResourceType" ColumnName="ResourceType" />
+                <ScalarProperty Name="ClientReturn" ColumnName="ClientReturn" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Aging" ColumnName="Aging" />
+                <ScalarProperty Name="AgeBracket" ColumnName="AgeBracket" />
+                <ScalarProperty Name="PerformanceAllowance" ColumnName="PerformanceAllowance" />
+                <ScalarProperty Name="LocationAllowance" ColumnName="LocationAllowance" />
+                <ScalarProperty Name="ReadyNessSatge" ColumnName="ReadyNessSatge" />
+                <ScalarProperty Name="StatusAsOfDate" ColumnName="StatusAsOfDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="staffargumentsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trainings">
+            <EntityTypeMapping TypeName="staffargumentsModel.Training">
+              <MappingFragment StoreEntitySet="Trainings">
+                <ScalarProperty Name="TrainingId" ColumnName="TrainingId" />
+                <ScalarProperty Name="TrainingName" ColumnName="TrainingName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

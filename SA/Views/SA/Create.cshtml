@@ -1,0 +1,310 @@
+﻿@model SA.Models.Resource
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $("#project").change(function () {
+            $("#projectname").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetProjectnames")',
+                dataType: 'Json',
+                data: { id: $("#project").val() },
+                success: function (projects) {
+                    $.each(projects, function (i, projects) {
+                        $("#projectname").append('<option value="' + projects.Value + '">'
+                            + projects.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('failed to retrive projectsname ' + ex)
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Resource</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmpName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EmpName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+      
+        @Html.LabelFor(model => model.YearOfPassing, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.YearOfPassing, new { htmlAttributes = new { @class = "yearpassing" } })
+            @Html.ValidationMessageFor(model => model.YearOfPassing, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+            @Html.LabelFor(model => model.DOJ, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOJ,  new { htmlAttributes = new {
+               @class = "form-control datepicker" , @id= "birth_date", @onChange= "ageCalculate()"
+           } })
+                @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    <div  class="form-group">
+       
+        @*DOJ:
+        <input type="date" id="birth_date" onchange="ageCalculate()">
+
+        <br />*@
+    </div>
+    <div  class="form-group">
+        Aging:
+        <br />
+
+
+        <input type="text" id="age">
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CostCenter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CostCenter, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CostCenter, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BU, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BU, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BU, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SBU, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SBU, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SBU, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResourceType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ResourceType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ResourceType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClientReturn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClientReturn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ClientReturn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    *@
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProjectType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.ProjectType, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.RadioButtonFor(m => m.ProjectType, "Internal") Internal
+            @Html.RadioButtonFor(m => m.ProjectType, "External") External
+            @Html.ValidationMessageFor(model => model.ProjectType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div style="padding-left:100px">
+        @Html.Label("select project")
+        @Html.DropDownList("project", TempData["lipro"] as List<SelectListItem>)
+    </div>
+
+    <div style="padding-left:100px">
+        @Html.Label("select projects")
+        @Html.DropDownList("projectname", new SelectList(new SelectList(string.Empty, "Value", "Text"), "select projectname"))
+    </div>
+
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.AgeBracket, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AgeBracket, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AgeBracket, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PerformanceAllowance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PerformanceAllowance, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PerformanceAllowance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LocationAllowance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LocationAllowance, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LocationAllowance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReadyNessSatge, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReadyNessSatge, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReadyNessSatge, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StatusAsOfDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StatusAsOfDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StatusAsOfDate, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Register" class="btn btn-success" />
+        </div>
+    </div>
+
+</div>
+}
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.message");
+            };
+    </script>
+
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+    <script>
+        $(function () {
+            $(".yearpassing").datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                // yearRange: "-20:+10",
+                minDate: new Date(2015, 0, 1),
+                maxDate: new Date(2022, 0, 1),
+                showOn: "both",
+                buttonText: "<i class='fa fa-calendar'></i>"
+            });
+        });
+    </script>
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                // debugger;
+                var ag = "";
+
+                $('.datepicker').datepicker({
+                    onSelect: function (value, ui) {
+                        var today = new Date();
+                        ag = today.getFullYear() - ui.selectedYear;
+                        //var age = today.getTime() - ui.getTime();
+                        //var m = today.getMonth() - ui.getMonth();
+
+                        //if (today.getMonth() < ui.getMonth() || (today.getMonth() == ui.getMonth() && today.getDate() < ui.getDate())) {
+                        //    age--;
+                        //}
+                        $('.aging').val(ag);
+                    },
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: new Date(2015, 0, 1),
+                    maxDate: new Date(2022, 0, 1),
+                    showOn: "both",
+                    buttonText: "<i class='fa fa-calendar'></i>"
+                });
+            });
+
+        </script>*@
+
+    <script>
+        function ageCalculate() {
+            var birthDate = document.getElementById('birth_date').value;
+            var d = new Date(birthDate);
+            var mdate = birthDate.toString();
+            var yearThen = parseInt(mdate.substring(0, 4), 10);
+            var monthThen = parseInt(mdate.substring(5, 7), 10);
+            var dayThen = parseInt(mdate.substring(8, 10), 10);
+            var today = new Date();
+            var birthday = new Date(yearThen, monthThen - 1, dayThen);
+            var differenceInMilisecond = today.valueOf() - birthday.valueOf();
+            var year_age = Math.floor(differenceInMilisecond / 31536000000);
+            var day_age = Math.floor((differenceInMilisecond % 31536000000) / 86400000);
+
+            if ((today.getMonth() == birthday.getMonth()) && (today.getDate() == birthday.getDate())) {
+                alert("Happy B'day!!!");
+            }
+
+            var month_age = Math.floor(day_age / 30);
+
+            day_age = day_age % 30;
+
+            var tMnt = (month_age + (year_age * 12));
+            var tDays = (tMnt * 30) + day_age;
+
+            if (isNaN(year_age) || isNaN(month_age) || isNaN(day_age)) {
+                document.getElementById("age").value = ("Invalid birthday - Please try again!");
+            }
+            else {
+                document.getElementById("age").value = year_age + " years " + month_age + " months " + day_age + " days";
+
+
+            }
+        }
+    </script>
+}
+
